@@ -22,39 +22,47 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Mobile menu
+  // Mobile menu hamburger
   const menuToggle = document.getElementById('menuToggle');
   const nav = document.getElementById('nav');
   if (menuToggle && nav) {
-    menuToggle.addEventListener('click', () => {
-      const open = nav.classList.toggle('open');
-      menuToggle.setAttribute('aria-expanded', open);
-      menuToggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
-    });
-
-    // Close on link click (mobile)
-    nav.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        nav.classList.remove('open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-
-    // Dropdown toggle on mobile
-    const dropdownToggle = nav.querySelector('.dropdown-toggle');
-    const dropdownParent = nav.querySelector('.nav-item-dropdown');
-    if (dropdownToggle && dropdownParent) {
-      dropdownToggle.addEventListener('click', (e) => {
-        if (window.innerWidth <= 900) {
-          e.preventDefault();
-          dropdownParent.classList.toggle('open');
-          dropdownToggle.setAttribute(
-            'aria-expanded',
-            dropdownParent.classList.contains('open')
-          );
-        }
-      });
+    function closeMenu() {
+      nav.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'Ouvrir le menu');
+      document.body.classList.remove('menu-open');
     }
+
+    function openMenu() {
+      nav.classList.add('open');
+      menuToggle.setAttribute('aria-expanded', 'true');
+      menuToggle.setAttribute('aria-label', 'Fermer le menu');
+      document.body.classList.add('menu-open');
+    }
+
+    menuToggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (nav.classList.contains('open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    // Fermer le menu au clic sur un lien
+    nav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        closeMenu();
+      });
+    });
+
+    // Fermer si on passe en desktop
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 980) {
+        closeMenu();
+      }
+    });
   }
 
   // Active nav link on scroll

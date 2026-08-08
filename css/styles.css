@@ -459,14 +459,88 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(-7px) rotate(-45deg);
 }
 
-/* Contact dans le menu mobile (caché sur desktop) */
-.nav-mobile-contact {
+/* Menu mobile — panneau plein écran (hors header) */
+.nav-mobile {
   display: none;
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(100vh - var(--header-h));
+  height: calc(100dvh - var(--header-h));
+  background: #ffffff;
+  padding: 0.5rem 1.25rem 2rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  z-index: 1100;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.nav-mobile.open {
+  display: block;
+}
+
+.nav-mobile-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-mobile-list > li {
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.nav-mobile-list a {
+  display: block;
+  padding: 1rem 0.35rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--navy);
+  text-decoration: none;
+}
+
+.nav-mobile-list a:hover,
+.nav-mobile-list a:active {
+  color: var(--gold-dark);
+  background: var(--gray-50);
+}
+
+.nav-mobile-label {
+  padding: 1rem 0.35rem 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: none !important;
+}
+
+.nav-mobile-list .nav-mobile-label + li a,
+.nav-mobile-list li:has(+ .nav-mobile-label) a {
+  /* activités légèrement indentées */
+}
+
+.nav-mobile-list a[href="#btp"],
+.nav-mobile-list a[href="#location"],
+.nav-mobile-list a[href="#hotellerie"],
+.nav-mobile-list a[href="#restauration"],
+.nav-mobile-list a[href="#habillement"],
+.nav-mobile-list a[href="#commerce"] {
+  padding-left: 1rem;
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--gray-700);
+}
+
+.nav-mobile-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   margin-top: 1.5rem;
   padding-top: 1.25rem;
   border-top: 1px solid var(--gray-200);
-  flex-direction: column;
-  gap: 0.5rem;
 }
 
 .nav-mobile-phone {
@@ -482,13 +556,18 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  padding: 0.65rem 1rem;
+  padding: 0.75rem 1rem;
   background: #25D366;
   color: var(--white);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   border-radius: var(--radius-md);
   margin-top: 0.25rem;
+  text-decoration: none;
+}
+
+body.menu-open {
+  overflow: hidden !important;
 }
 
 /* ========== HERO ========== */
@@ -1608,7 +1687,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Tablets */
+/* Tablets + Mobile */
 @media (max-width: 980px) {
   .header-phones {
     display: none;
@@ -1618,63 +1697,13 @@ h1, h2, h3, h4, h5, h6 {
     display: none;
   }
   
-  .nav {
-    display: none;
-    position: fixed;
-    top: var(--header-h);
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--white);
-    padding: 1.25rem 1.5rem 2rem;
-    box-shadow: var(--shadow-lg);
-    border-top: 1px solid var(--gray-200);
-    overflow-y: auto;
-    z-index: 999;
-  }
-  
-  .nav.open {
-    display: block;
-  }
-  
-  .nav-mobile-contact {
-    display: flex;
-  }
-  
-  .nav-list {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.25rem;
-  }
-  
-  .nav-link {
-    padding: 0.9rem 1rem;
-    font-size: 1rem;
-    border-radius: var(--radius-md);
-  }
-  
-  .dropdown-menu {
-    position: static;
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    box-shadow: none;
-    padding: 0.25rem 0 0.5rem 1rem;
-    display: none;
-    min-width: auto;
-  }
-  
-  .nav-item-dropdown.open .dropdown-menu {
-    display: block;
-  }
-  
-  .dropdown-menu a {
-    padding: 0.7rem 1rem;
-    font-size: 0.95rem;
-  }
-  
   .menu-toggle {
     display: flex;
+  }
+  
+  /* Cacher la nav desktop */
+  .nav-desktop {
+    display: none !important;
   }
   
   .about-grid,
